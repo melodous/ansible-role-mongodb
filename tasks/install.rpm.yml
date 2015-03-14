@@ -12,3 +12,4 @@
 - name: Install additional packages
   yum: pkg={{item}}
   with_items: mongodb_additional_packages
+  when: mongodb_additional_packages
