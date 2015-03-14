@@ -1,5 +1,7 @@
 ---
 
+- include_vars: "{{ansible_distribution}}.yml"
+
 - name: Create keyFile
   copy:
     dest: "{{ mongodb_conf_keyFile }}"
