@@ -9,7 +9,7 @@
     owner: "{{ mongodb_user }}"
     group: "root"
     mode: 0600
-  when: mongodb_conf_replSet != ''
+  when: mongodb_conf_replSet
 
 - name: Configure log rotation
   template: src=logrotate.conf.j2 dest=/etc/logrotate.d/mongodb.conf
