@@ -1,0 +1,14 @@
+---
+
+- include_vars: "{{ansible_distribution}}.yml"
+
+- name: Add yum repository
+  template: src=mongodb.RedHat.repo.j2 dest=/etc/yum.repos.d/mongodb.repo owner=root group=root mode=0644
+  when: '"mongodb-org" in mongodb_package'
+
+- name: Install MongoDB package
+  yum: pkg={{mongodb_package}} state=present
+
+- name: Install additional packages
+  yum: pkg={{item}}
+  with_items: mongodb_additional_packages

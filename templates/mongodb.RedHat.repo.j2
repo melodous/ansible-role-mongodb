@@ -1,0 +1,8 @@
+[mongodb]
+name=MongoDB Repository
+baseurl={{ mongodb_repository }}
+gpgcheck=0
+enabled=1
+{% if repo_proxy is defined %}
+proxy={{ repo_proxy }}
+{% endif %}
