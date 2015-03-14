@@ -4,6 +4,10 @@
   when: ansible_os_family == 'Debian'
   tags: [mongodb]
 
+- include: install.rpm.yml
+  when: ansible_os_family == 'RedHat'
+  tags: [mongodb]
+
 - include: configure.yml
   tags: [mongodb]
 
