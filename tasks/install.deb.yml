@@ -23,7 +23,7 @@
   when: '"mongodb-org" in mongodb_package'
 
 - name: Add APT repository
-  apt_repository: repo="{{mongodb_repository}}" update_cache=yes
+  apt_repository: repo="{{mongodb_repository | default(default_mongodb_repository)}}" update_cache=yes
   when: '"mongodb-org" in mongodb_package'
 
 - name: Install MongoDB package
