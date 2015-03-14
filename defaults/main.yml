@@ -12,7 +12,7 @@ mongodb_conf_auth: false                          # Run with security
 mongodb_conf_bind_ip: 127.0.0.1                   # Comma separated list of ip addresses to listen on
 mongodb_conf_cpu: true                            # Periodically show cpu and iowait utilization
 mongodb_conf_dbpath: /data/db                     # Directory for datafiles
-mongodb_conf_fork: false                          # Fork server process
+mongodb_conf_fork: true                           # Fork server process
 mongodb_conf_httpinterface: false                 # Enable http interface
 mongodb_conf_ipv6: false                          # Enable IPv6 support (disabled by default)
 mongodb_conf_journal: true                        # Enable journaling
@@ -47,8 +47,10 @@ mongodb_logrotate_options:
   - copytruncate
   - daily
   - dateext
-  - rotate 7
+  - rotate 12
   - size 10M
+  - notifempty
+  - missingok
 
 # password for inter-process authentication
 # please regenerate this file on production environment with command 'openssl rand -base64 741'
