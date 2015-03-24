@@ -12,4 +12,11 @@
 - name: Install additional packages
   yum: pkg={{item}}
   with_items: mongodb_additional_packages
-  when: mongodb_additional_packages
+  when: mongodb_additional_packages is defined
+
+- name: Remove default init script
+  file: path=/etc/init.d/mongod state=absent
+  when: mongodb_daemon_name != "mongod"
+
+- name: Create customized init script
+  template: src=mongodb.redhat.init dest=/etc/init.d/{{ mongodb_daemon_name }}

@@ -1,5 +1,4 @@
 ---
-
 - include: install.deb.yml
   when: ansible_os_family == 'Debian'
   tags: [mongodb]
@@ -18,3 +17,7 @@
 #- include: mms-agent.yml
 #  when: mongodb_mms_api_key != ""
 #  tags: [mongodb]
+
+- include: auth_users.yml
+  tags: [mongodb]
+

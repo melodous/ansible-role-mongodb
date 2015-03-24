@@ -2,4 +2,5 @@
 
 default_mongodb_repository: http://downloads-distro.mongodb.org/repo/redhat/os/x86_64/
 mongodb_user: mongod
+mongodb_group: mongod
 mongodb_conf_fork: true

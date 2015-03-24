@@ -7,7 +7,7 @@
 {% endfor %}
     sharedscripts
     postrotate
-        /bin/kill -SIGUSR1 `cat /var/run/mongodb/mongod.pid` &&
+        /bin/kill -SIGUSR1 `cat {{ mongodb_conf_pidfilepath }}` &&
         rm -f /var/log/mongodb/mongod.log.????-??-??T??-??-??
     endscript
 }

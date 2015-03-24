@@ -6,12 +6,15 @@ mongodb_additional_packages:
 - python-pymongo
 
 mongodb_user: mongodb
+mongodb_group: mongodb
 mongodb_daemon_name: "{{ 'mongod' if ('mongodb-org' in mongodb_package) else 'mongodb' }}"
 
+mongodb_conf_confFile: /etc/{{ mongodb_daemon_name }}.conf           # Config file path
+mongodb_conf_pidfilepath: /var/run/mongodb/{{ mongodb_daemon_name }}.pid     # PID file path
 mongodb_conf_auth: false                          # Run with security
-mongodb_conf_bind_ip: 127.0.0.1                   # Comma separated list of ip addresses to listen on
+mongodb_conf_bind_ip: 0.0.0.0                     # Comma separated list of ip addresses to listen on
 mongodb_conf_cpu: true                            # Periodically show cpu and iowait utilization
-mongodb_conf_dbpath: /data/db                     # Directory for datafiles
+mongodb_conf_dbpath: /var/lib/{{ mongodb_daemon_name }} # Directory for datafiles
 mongodb_conf_fork: false                          # Fork server process
 mongodb_conf_httpinterface: false                 # Enable http interface
 mongodb_conf_ipv6: false                          # Enable IPv6 support (disabled by default)
@@ -32,7 +35,17 @@ mongodb_conf_syslog: false                        # Log to system's syslog facil
 mongodb_conf_replSet:                             # Enable replication <setname>[/<optionalseedhostlist>]
 mongodb_conf_replIndexPrefetch: "all"             # specify index prefetching behavior (if secondary) [none|_id_only|all]
 mongodb_conf_oplogSize: 512                       # specifies a maximum size in megabytes for the replication operation log
-mongodb_conf_keyFile: /etc/mongodb-keyfile        # Specify path to keyfile with password for inter-process authentication
+mongodb_conf_keyFile: /etc/{{ mongodb_daemon_name }}-keyfile        # Specify path to keyfile with password for inter-process authentication
+
+# LVM options
+mongodb_lvm: false
+mongodb_lvm_vgname: vg_{{ mongodb_daemon_name }}
+mongodb_lvm_lvname: lv_{{ mongodb_daemon_name }}
+mongodb_lvm_lvsize: 100%FREE
+mongodb_lvm_fs: "{{ mongodb_conf_dbpath }}"
+mongodb_lvm_pvs:
+mongodb_lvm_readahead: 32
+mongodb_lvm_pesize: 32
 
 # MMS Agent
 mongodb_mms_agent_pkg: https://mms.mongodb.com/download/agent/automation/mongodb-mms-automation-agent-manager_1.4.2.783-1_amd64.deb

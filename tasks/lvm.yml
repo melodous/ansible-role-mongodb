@@ -1,0 +1,28 @@
+---
+
+- name: Install LVM software
+  yum: name=lvm2
+
+- name: Create Volume Group
+  lvg: vg={{ mongodb_lvm_vgname }} pvs={{ mongodb_lvm_pvs }} pesize={{ mongodb_lvm_pesize }}
+  when: mongodb_lvm == true 
+
+- name: Create Logical Volume
+  lvol: vg={{ mongodb_lvm_vgname }} lv={{ mongodb_lvm_lvname }} size={{ mongodb_lvm_lvsize }} 
+  when: mongodb_lvm == true
+
+- name: Create Filesystems
+  filesystem: fstype=ext4 dev=/dev/{{ mongodb_lvm_vgname }}/{{ mongodb_lvm_lvname }}
+  when: mongodb_lvm == true
+
+- name: Configure Filesystem
+  mount: state=mounted fstype=ext4 src=/dev/{{ mongodb_lvm_vgname }}/{{ mongodb_lvm_lvname }} name={{ mongodb_lvm_fs }}
+  when: mongodb_lvm == true
+
+- name: Configure perms Filesystems
+  file: state=directory owner={{ mongodb_user }} group={{ mongodb_group }} mode=755 path={{ mongodb_lvm_fs }}
+
+- name: Set readhead
+  shell: /sbin/blockdev --setra {{ mongodb_lvm_readahead }} /dev/{{ mongodb_lvm_vgname }}/{{ mongodb_lvm_lvname }}
+  when: mongodb_lvm == true
+
